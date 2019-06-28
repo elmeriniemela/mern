@@ -1,11 +1,15 @@
 
 https://www.youtube.com/watch?v=_02zK1D4brk&list=PL2dKqfImstaRbG8WIBkeHyV1ic5dyiEMj&index=3
+https://github.com/seeschweiler/mern-stack-part-02
 
-sudo apt install mongodb-server-core
-sudo apt install mongodb-clients
+sudo apt install -y mongodb
 
 mongod
 mongo
+
+mongo --eval 'db.runCommand({ connectionStatus: 1 })'
+
+/etc/mongodb.conf
 
 use todos
 
