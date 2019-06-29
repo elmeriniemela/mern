@@ -47,7 +47,7 @@ export default class CreateTodo extends Component {
         };
 
         axios
-            .post(`${window.location.hostname}/todos/add`, newTodo)
+            .post(`/todos/add`, newTodo)
             .then(res => console.log(res.data));
 
         this.setState({

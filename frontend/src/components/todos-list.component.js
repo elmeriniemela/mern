@@ -36,7 +36,7 @@ export default class TodosList extends Component {
 
     updateTodoList() {
         console.log(window.location.hostname);
-        axios.get(`http://${window.location.hostname}/todos/`)
+        axios.get(`/todos/`)
             .then(response => {
                 if (this._isMounted) {
                     this.setState({ todos: response.data });
