@@ -23,6 +23,10 @@ export default class TodosList extends Component {
     }
 
     componentDidMount() {
+        this.updateTodoList();
+    }
+
+    updateTodoList() {
         axios.get('http://localhost:4000/todos/')
             .then(response => {
                 this.setState({ todos: response.data });
@@ -41,7 +45,8 @@ export default class TodosList extends Component {
     render() {
         return (
             <div>
-                <h3>Todos List</h3>
+                <h3 className="mt-4 mb-4" >Todos List</h3>
+                <button className="btn btn-secondary" onClick={() => this.updateTodoList()}>Update list</button>
                 <table className="table table-striped" style={{ marginTop: 20 }}>
                     <thead>
                         <tr>
