@@ -22,14 +22,28 @@ export default class TodosList extends Component {
         this.state = { todos: [] };
     }
 
+    _isMounted = false;
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     componentDidMount() {
+        this._isMounted = true;
         this.updateTodoList();
+    }
+
+    componentDidUpdate() {
+        this.updateTodoList()
     }
 
     updateTodoList() {
         axios.get('http://localhost:4000/todos/')
             .then(response => {
-                this.setState({ todos: response.data });
+                if (this._isMounted) {
+                    this.setState({ todos: response.data });
+                }
+
             })
             .catch(function (error) {
                 console.log(error);

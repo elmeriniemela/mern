@@ -68,8 +68,6 @@ export default class EditTodo extends Component {
         };
         axios.post('http://localhost:4000/todos/update/'+this.props.match.params.id, obj)
             .then(res => {
-                // TODO: Update list view
-                console.log(this.props);
                 console.log(res.data);
             });
 

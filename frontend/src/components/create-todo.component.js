@@ -39,8 +39,6 @@ export default class CreateTodo extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log("Form submitted");
-        console.log(`State: ${this.state}`);
         const newTodo = {
             todo_description: this.state.todo_description,
             todo_responsible: this.state.todo_responsible,
