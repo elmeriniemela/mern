@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const todoRoutes = express.Router();
+const apiRoutes = express.Router();
 const PORT = 5000;
 const path = require('path');
 
@@ -21,7 +21,7 @@ connection.once('open', function () {
     console.log("MongoDB database connection established successfully");
 })
 
-todoRoutes.route('/').get(function (req, res) {
+apiRoutes.route('/todos').get(function (req, res) {
     Todo.find(function (err, todos) {
         if (err) {
             console.log(err);
@@ -31,7 +31,7 @@ todoRoutes.route('/').get(function (req, res) {
     });
 });
 
-todoRoutes.route('/:id').get(function (req, res) {
+apiRoutes.route('/todos/:id').get(function (req, res) {
     let id = req.params.id;
     Todo.findById(id, function (err, todo) {
         if (err) {
@@ -44,7 +44,7 @@ todoRoutes.route('/:id').get(function (req, res) {
 
 
 
-todoRoutes.route('/add').post(function (req, res) {
+apiRoutes.route('/todos/add').post(function (req, res) {
     let todo = new Todo(req.body);
     todo.save()
         .then(todo => {
@@ -55,7 +55,7 @@ todoRoutes.route('/add').post(function (req, res) {
         });
 });
 
-todoRoutes.route('/update/:id').post(function (req, res) {
+apiRoutes.route('/todos/update/:id').post(function (req, res) {
     Todo.findById(req.params.id, function (err, todo) {
         if (!todo) {
             res.status(404).send('data is not found');
@@ -75,16 +75,17 @@ todoRoutes.route('/update/:id').post(function (req, res) {
     });
 });
 
-app.use('/todos', todoRoutes);
+app.use('/api', apiRoutes);
 
+// Serve built frontend here on port 5000, the react development server will run on port 3000
+// with a proxy to http://localhost:5000 for api calls 
+app.use(express.static(path.join(path.dirname(__dirname), 'frontend/build')));
 
-// app.use(express.static(path.join(path.dirname(__dirname), 'frontend/build')));
-
-// app.get('*', function (req, res) {
-//     var file = path.join(path.dirname(__dirname)+'/frontend/build/index.html')
-//     console.log(file)
-//     res.sendFile(file);
-// });
+app.get('*', function (req, res) {
+    var file = path.join(path.dirname(__dirname)+'/frontend/build/index.html')
+    console.log(file)
+    res.sendFile(file);
+});
 
 app.listen(PORT, function () {
     console.log("Server is running on port: " + PORT);
